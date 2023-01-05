@@ -32,13 +32,13 @@ def validate():
             myresult=mycursor.fetchone()
             if(passwordHash.hexdigest()==myresult[2]):
                 token=encode_auth_token(myresult[0])
-                resp= redirect("http://63.35.237.119/catalogue", code=302)
+                resp= redirect("http://54.194.36.85//catalogue", code=302)
                 resp.set_cookie('authToken',token)
                 return resp
-    return redirect("http://63.35.237.119/login", code=302)
+    return redirect("http://54.194.36.85/login", code=302)
 @service.route('/test')
 def test_():
-    return redirect("http://63.35.237.119/login", code=302)
+    return redirect("http://54.194.36.85/login", code=302)
 def encode_auth_token( user_id):
     secret=os.getenv("SECRET_KEY")
     payload={'exp': datetime.datetime.utcnow() + datetime.timedelta(days=1),'iat': datetime.datetime.utcnow(),'sub': user_id}
