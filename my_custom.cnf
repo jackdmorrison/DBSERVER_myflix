@@ -1,4 +1,4 @@
-bind-address=db
+#bind-address=db
 [client]
 port=3306
 socket=/tmp/mysql.sock
