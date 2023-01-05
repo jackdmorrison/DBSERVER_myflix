@@ -12,14 +12,15 @@ services:
       - db-password
     volumes:
       - db-data:/var/lib/mysql
-    # networks:
-    #   - backnetwork
+    networks:
+      - backnetwork
     environment:
       MYSQL_DATABASE: USERS
       MYSQL_ROOT_PASSWORD: db-password
-    ports:
-      - 3306:3306
-      - 33060:33060
+    expose:
+      - 3306
+      - 33060
+
   flask:
     build:
       context: flask
@@ -29,9 +30,9 @@ services:
       - db-password
     ports:
       - 5000:5000
-    # networks:
-    #   - frontnetwork
-    #   - backnetwork
+    networks:
+      - frontnetwork
+      - backnetwork
     depends_on:
       db:
         condition: service_healthy
@@ -43,8 +44,8 @@ services:
       - 80:80
     depends_on: 
       - flask
-    # networks:
-    #   - frontnetwork
+    networks:
+      - frontnetwork
 
 volumes:
   db-data:
@@ -53,6 +54,6 @@ secrets:
   db-password:
     file: .secret/pass.txt
 
-# networks:
-#   backnetwork:
-#   frontnetwork:
+networks:
+  backnetwork:
+  frontnetwork:
