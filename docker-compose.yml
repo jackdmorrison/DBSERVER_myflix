@@ -17,7 +17,7 @@ services:
       - backnetwork
     environment:
       - MYSQL_DATABASE=USERS
-      - MYSQL_ROOT_PASSWORD_FILE='changeme'
+      - MYSQL_ROOT_PASSWORD='changeme'
     expose:
       - 3306
       - 33060
