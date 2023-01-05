@@ -16,8 +16,8 @@ services:
     networks:
       - backnetwork
     environment:
-      MYSQL_DATABASE: USERS
-      MYSQL_ROOT_PASSWORD_FILE: /run/secrets/db-password
+      - MYSQL_DATABASE= USERS
+      - MYSQL_ROOT_PASSWORD_FILE= /run/secrets/db-password
     expose:
       - 3306
       - 33060
