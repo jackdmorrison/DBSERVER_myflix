@@ -1,3 +1,3 @@
-docker system prune -a;
+docker system prune -a -f;
 docker-compose build; 
 docker-compose up -d;

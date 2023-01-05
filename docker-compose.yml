@@ -13,7 +13,7 @@ services:
     secrets:
       - db-password
     volumes:
-      - db:/var/lib/mysql
+      - db-data:/var/lib/mysql
       - ./USERS.sql:/docker-entrypoint-initdb.d/init.sql
       - ./my_custom.cnf:/etc/mysql/my.cnf
     networks:
