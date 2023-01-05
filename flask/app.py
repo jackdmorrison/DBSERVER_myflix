@@ -11,7 +11,7 @@ password=open('/run/secrets/db-password')
 connection = pymysql.connect(
     host="db",
     user="root",
-    password=password.read(),
+    password="changeme",
     database='USERS',
     cursorclass=pymysql.cursors.DictCursor
 )
