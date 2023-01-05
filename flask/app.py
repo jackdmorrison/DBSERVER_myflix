@@ -3,19 +3,19 @@ import json
 import os
 import datetime
 import hashlib
-import pymysql.cursors
+import mysql.connector
 import jwt
 import time
 time.sleep(1)
 password=open('/run/secrets/db-password')
-connection = pymysql.connect(
+mydb = mysql.connector.connect(
     host="db",
     user="root",
-    password="changeme",
+    password=password.read(),
     database='USERS',
-    cursorclass=pymysql.cursors.DictCursor
+    auth_plugin='mysql_native_password'
 )
-mycursor = connection.cursor()
+mycursor = mydb.cursor()
 service = Flask(__name__)
 @service.route('/validate',methods = ['POST'])
 def validate():
