@@ -32,10 +32,11 @@ def validate():
             myresult=mycursor.fetchone()
             if(passwordHash.hexdigest()==myresult[2]):
                 token=encode_auth_token(myresult[0])
-                resp= redirect("http://54.194.36.85//catalogue", code=302)
-                resp.set_cookie('authToken',token)
-                return resp
-    return redirect("http://54.194.36.85/login", code=302)
+                # resp= redirect("http://54.194.36.85//catalogue", code=302)
+                # resp.set_cookie('authToken',token)
+                return token
+    #return redirect("http://54.194.36.85/login", code=302)
+    return 
 @service.route('/test')
 def test_():
     return redirect("http://54.194.36.85/login", code=302)
