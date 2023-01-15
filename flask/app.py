@@ -53,10 +53,17 @@ def validate():
             }
             return make_response(jsonify(responseObject)), 401
     #return redirect("http://54.194.36.85/login", code=302)
-    return 
+    responseObject = {
+                'status': 'Failed',
+                'message': 'incorrect method'
+    }
+    return make_response(jsonify(responseObject)), 400
 @service.route('/test')
 def test_():
     return redirect("http://54.194.36.85/login", code=302)
+
+
+
 def encode_auth_token( user_id):
     secret=os.getenv("SECRET_KEY")
     payload={'exp': datetime.datetime.utcnow() + datetime.timedelta(days=1),'iat': datetime.datetime.utcnow(),'sub': user_id}
