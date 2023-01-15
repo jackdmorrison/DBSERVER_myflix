@@ -20,10 +20,10 @@ service = Flask(__name__)
 @service.route('/validate',methods = ['POST'])
 def validate():
     if(request.method == 'POST'):
-        content=request.json
+        content=request.get_json()
         print(content)
-        email= content['Email']
-        password=content['Password']
+        email= content.get('Email')
+        password=content.get('Password')
         passwordHash=hashlib.md5(password.encode())
         if (email!=None and password!=None):
             query="SELECT * FROM user_data WHERE userEmail=%s"
@@ -34,7 +34,24 @@ def validate():
                 token=encode_auth_token(myresult[0])
                 # resp= redirect("http://54.194.36.85//catalogue", code=302)
                 # resp.set_cookie('authToken',token)
-                return token
+                responseObject = {
+                    'status': 'success',
+                    'message': 'Successfully registered.',
+                    'auth_token': token.decode()
+                }
+                return make_response(jsonify(responseObject)), 201
+            else:
+                responseObject = {
+                    'status': 'Failed',
+                    'message': 'password incorrect.'
+            }
+            return make_response(jsonify(responseObject)), 401
+        else:
+            responseObject = {
+                    'status': 'Failed',
+                    'message': 'No UserName or password.'
+            }
+            return make_response(jsonify(responseObject)), 401
     #return redirect("http://54.194.36.85/login", code=302)
     return 
 @service.route('/test')
