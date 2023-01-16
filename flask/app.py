@@ -62,8 +62,9 @@ def test_():
 
 @service.route('/Authorise',methods = ['POST'])
 def authorise():
-    email= request.data['Email']
-    password=request.data['Password']
+    req=request.get_json()
+    email= req.get('Email')
+    password=req.get('Password')
     print(email,password)
     payload={'exp': datetime.datetime.utcnow() + datetime.timedelta(days=1),'iat': datetime.datetime.utcnow(),'sub': 'jack@example.com'}
     responseObject = {
