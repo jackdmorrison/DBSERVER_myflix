@@ -3,7 +3,7 @@ import os
 import datetime
 import hashlib
 import mysql.connector
-from flask_cors import CORS
+#from flask_cors import CORS
 import jwt
 import time
 time.sleep(1)
