@@ -27,7 +27,6 @@ def validate():
         passwordHash=hashlib.md5(password.encode())
         if (email!=None and password!=None):
             query="SELECT * FROM user_data WHERE userEmail=%s"
-            email=(email,)
             mycursor.execute(query,email)
             myresult=mycursor.fetchone()
             if(passwordHash.hexdigest()==myresult[2]):
