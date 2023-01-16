@@ -59,6 +59,7 @@ def validate():
 @service.route('/test')
 def test_():
     return redirect("http://54.194.36.85/login", code=302)
+
 @service.route('/Authorise',methods = ['POST'])
 def authorise():
     payload={'exp': datetime.datetime.utcnow() + datetime.timedelta(days=1),'iat': datetime.datetime.utcnow(),'sub': 'jack@example.com'}
