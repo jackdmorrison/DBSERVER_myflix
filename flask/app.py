@@ -61,12 +61,11 @@ def test_():
     return redirect("http://54.194.36.85/login", code=302)
 @service.route('/Authorise',methods = ['POST'])
 def authorise():
-    token=encode_auth_token('jack@example.com')
-    
+    payload={'exp': datetime.datetime.utcnow() + datetime.timedelta(days=1),'iat': datetime.datetime.utcnow(),'sub': 'jack@example.com'}
     responseObject = {
         'status': 'success',
         'message': 'Successfully registered.',
-        'auth_token': jwt.decode(token,os.getenv("SECRET_KEY"))
+        'auth_token': payload
     }
     return make_response(jsonify(responseObject)), 201
 
