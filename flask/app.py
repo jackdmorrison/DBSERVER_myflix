@@ -17,7 +17,7 @@ mydb = mysql.connector.connect(
 )
 mycursor = mydb.cursor()
 service = Flask(__name__)
-CORS(service)
+#CORS(service)
 @service.route('/validate',methods = ['POST'])
 
 def validate():
