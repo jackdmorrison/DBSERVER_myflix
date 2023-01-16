@@ -60,7 +60,7 @@ def validate():
 def test_():
     return redirect("http://54.194.36.85/login", code=302)
 @service.route('/Authorise',methods = ['POST'])
-def validate():
+def authorise():
     token=encode_auth_token('jack@example.com')
     responseObject = {
         'status': 'success',
