@@ -19,8 +19,8 @@ service = Flask(__name__)
 @service.route('/validate',methods = ['POST'])
 def validate():
     if(request.method == 'POST'):
-        email= request.form['Email']
-        password=request.form['Password']
+        email= request.json['Email']
+        password=request.json['Password']
         passwordHash=hashlib.md5(password.encode())
         if (email!=None and password!=None):
             query="SELECT * FROM user_data WHERE userEmail=%s"
