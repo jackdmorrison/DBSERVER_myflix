@@ -72,6 +72,41 @@ def validate():
         'auth_token': payload
     }
     return make_response(jsonify(responseObject)), 400
+@service.route('/add',methods = ['POST'])
+def add():
+    if(request.method == 'POST'):
+        req=request.get_json()
+        email= req.get('Email')
+        password=req.get('Password')
+        if (email!=None and password!=None):
+            try:
+                query="INSERT INTO user_data(userEmail, userPassword,paymentType) VALUES (%s, MD5(%s),'paypal');"
+                string=(email, password)
+                mycursor.execute(query,string)
+                mydb.commit()
+                payload={'valid':'Yes','exp': datetime.datetime.utcnow() + datetime.timedelta(days=1),'iat': datetime.datetime.utcnow(),'sub': email}
+                responseObject = {
+                    'status': 'success',
+                    'message': 'Successfully registered.',
+                    'auth_token': payload
+                }
+                return make_response(jsonify(responseObject)), 201
+            except:
+                payload={'valid':'No'}
+                responseObject = {
+                    'status': 'failure',
+                    'message': 'Failed register',
+                    'auth_token': payload
+                }
+                return make_response(jsonify(responseObject)), 201
+    #return redirect("http://54.194.36.85/login", code=302)
+    payload=payload={'valid':'No','sub': 'none'}
+    responseObject = {
+        'status': 'Failed',
+        'message': 'method failed.',
+        'auth_token': payload
+    }
+    return make_response(jsonify(responseObject)), 400
 @service.route('/test')
 def test_():
     return redirect("http://54.194.36.85/login", code=302)
