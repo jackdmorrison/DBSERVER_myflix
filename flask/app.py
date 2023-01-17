@@ -29,29 +29,30 @@ def validate():
         if (email!=None and password!=None):
             query="SELECT * FROM user_data WHERE userEmail=%s"
             string=(email, )
-            mycursor.execute(query,string)
-            myresult=mycursor.fetchone()
-            if(passwordHash.hexdigest()==myresult[2]):
-                payload={'valid':'Yes','exp': datetime.datetime.utcnow() + datetime.timedelta(days=1),'iat': datetime.datetime.utcnow(),'sub': email}
-                responseObject = {
-                    'status': 'success',
-                    'message': 'Successfully registered.',
-                    'auth_token': payload
-                }
-                return make_response(jsonify(responseObject)), 201
-                # # resp= redirect("http://54.194.36.85//catalogue", code=302)
-                # # resp.set_cookie('authToken',token)
-                # responseObject = {
-                #     'status': 'success',
-                #     'message': 'Successfully registered.',
-                #     'auth_token': token.decode()
-                # }
-                # return make_response(jsonify(responseObject)), 201
-            else:
-                payload=payload={'valid':'No','sub': email}
+            try:
+                mycursor.execute(query,string)
+                myresult=mycursor.fetchone() 
+                if(passwordHash.hexdigest()==myresult[2]):
+                    payload={'valid':'Yes','exp': datetime.datetime.utcnow() + datetime.timedelta(days=1),'iat': datetime.datetime.utcnow(),'sub': email}
+                    responseObject = {
+                        'status': 'success',
+                        'message': 'Successfully registered.',
+                        'auth_token': payload
+                    }
+                    return make_response(jsonify(responseObject)), 201
+                else:
+                    payload=payload={'valid':'No','sub': email}
+                    responseObject = {
+                        'status': 'Failed',
+                        'message': 'password incorrect.',
+                        'auth_token': payload
+                    }
+                    return make_response(jsonify(responseObject)), 401
+            except:
+                payload=payload={'valid':'No','sub': 'none'}
                 responseObject = {
                     'status': 'Failed',
-                    'message': 'password incorrect.',
+                    'message': 'userFailed.',
                     'auth_token': payload
                 }
                 return make_response(jsonify(responseObject)), 401
