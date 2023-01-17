@@ -3,7 +3,7 @@ import os
 import datetime
 import hashlib
 import mysql.connector
-#from flask_cors import CORS
+from flask_cors import CORS
 import jwt
 import time
 time.sleep(1)
@@ -17,7 +17,7 @@ mydb = mysql.connector.connect(
 )
 mycursor = mydb.cursor()
 service = Flask(__name__)
-#CORS(service)
+CORS(service)
 @service.route('/validate',methods = ['POST'])
 
 def validate():
