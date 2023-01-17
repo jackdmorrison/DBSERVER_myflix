@@ -1,6 +1,5 @@
 # syntax=docker/dockerfile:1.4
-#--platform=$BUILDPLATFORM
-FROM python:3.10-alpine AS builder
+FROM --platform=linux/386 python:3.10-alpine AS builder
 WORKDIR /code
 COPY requirements.txt /code
 RUN --mount=type=cache,target=/root/.cache/pip \
