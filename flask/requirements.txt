@@ -1,4 +1,5 @@
 flask==2.0.1
 mysql-connector==2.2.9
+Flask-Cors
 PyJWT
 PyMySQL

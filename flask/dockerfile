@@ -1,11 +1,12 @@
 # syntax=docker/dockerfile:1.4
-FROM --platform=linux/386 python:3.10-alpine AS builder
+# syntax=docker/dockerfile:1.4
+FROM --platform=$BUILDPLATFORM python:3.10-alpine AS builder
+
 WORKDIR /code
 COPY requirements.txt /code
 RUN --mount=type=cache,target=/root/.cache/pip \
     pip3 install -r requirements.txt
-RUN --mount=type=cache,target=/root/.cache/pip \
-    pip3 install -U flask-cors
+
 COPY . .
 
 ENV FLASK_APP app.py
@@ -19,11 +20,15 @@ CMD ["flask", "run"]
 
 FROM builder AS dev-envs
 
-RUN apk update
-RUN apk add git
+RUN <<EOF
+apk update
+apk add git
+EOF
 
-RUN addgroup -S docker
-RUN adduser -S --shell /bin/bash --ingroup docker vscode
+RUN <<EOF
+addgroup -S docker
+adduser -S --shell /bin/bash --ingroup docker vscode
+EOF
 
 # install Docker tools (cli, buildx, compose)
 COPY --from=gloursdocker/docker / /
