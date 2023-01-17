@@ -32,7 +32,7 @@ def validate():
             mycursor.execute(query,string)
             myresult=mycursor.fetchone()
             if(passwordHash.hexdigest()==myresult[2]):
-                payload={'exp': datetime.datetime.utcnow() + datetime.timedelta(days=1),'iat': datetime.datetime.utcnow(),'sub': email}
+                payload={'valid':'Yes','exp': datetime.datetime.utcnow() + datetime.timedelta(days=1),'iat': datetime.datetime.utcnow(),'sub': email}
                 responseObject = {
                     'status': 'success',
                     'message': 'Successfully registered.',
@@ -48,15 +48,19 @@ def validate():
                 # }
                 # return make_response(jsonify(responseObject)), 201
             else:
+                payload=payload={'valid':'No','sub': email}
                 responseObject = {
                     'status': 'Failed',
-                    'message': 'password incorrect.'
-            }
-            return make_response(jsonify(responseObject)), 401
+                    'message': 'password incorrect.',
+                    'auth_token': payload
+                }
+                return make_response(jsonify(responseObject)), 401
         else:
+            payload=payload={'valid':'No','sub': 'none'}
             responseObject = {
-                    'status': 'Failed',
-                    'message': 'No UserName or password.'
+                'status': 'Failed',
+                'message': 'userFailed.',
+                'auth_token': payload
             }
             return make_response(jsonify(responseObject)), 401
     #return redirect("http://54.194.36.85/login", code=302)
