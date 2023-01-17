@@ -65,9 +65,11 @@ def validate():
             }
             return make_response(jsonify(responseObject)), 401
     #return redirect("http://54.194.36.85/login", code=302)
+    payload=payload={'valid':'No','sub': 'none'}
     responseObject = {
-                'status': 'Failed',
-                'message': 'incorrect method'
+        'status': 'Failed',
+        'message': 'method failed.',
+        'auth_token': payload
     }
     return make_response(jsonify(responseObject)), 400
 @service.route('/test')
